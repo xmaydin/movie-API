@@ -3,11 +3,23 @@ var router = express.Router();
 
 // Models
 const Movie = require('../models/Movie');
+const Director = require('../models/Director');
+
 
 /*********** Tüm Filmleri Listeleme **************/
 router.get('/', function (req, res, next) {
+    const Promise = Movie.aggregate([
+        {
+            $lookup: {
+                from: 'directors',
+                localField: 'director_id',
+                foreignField: '_id',
+                as: 'director'
+            }
+        }
+    ]);
 
-    const Promise = Movie.find({});
+
     Promise
         .then((data) => {
             res.json(data);
@@ -50,15 +62,7 @@ router.get('/:movie_id', function (req, res, next) {
 /*********** Film Ekleme **************/
 router.post('/', function (req, res, next) {
 
-    const {title, country, imdb_score, year, category} = req.body;
-
-    const movie = new Movie({
-        title: title,
-        country: country,
-        imdb_score: imdb_score,
-        year: year,
-        category: category
-    });
+    const movie = new Movie(req.body);
 
     const promise = movie.save();
     promise.then((data) => {
@@ -110,9 +114,9 @@ router.delete('/:movie_id', function (req, res, next) {
 /*********** 2 Yıl Arasındaki Filmleri Listeleme **************/
 router.get('/between/:start_year/:end_year', function (req, res, next) {
 
-    const {start_year , end_year}  = req.params;
+    const {start_year, end_year} = req.params;
     const Promise = Movie.find({
-        year: { "$gte": parseInt(start_year), "$lte": parseInt(end_year)}
+        year: {"$gte": parseInt(start_year), "$lte": parseInt(end_year)}
     });
     Promise
         .then((data) => {
@@ -125,25 +129,3 @@ router.get('/between/:start_year/:end_year', function (req, res, next) {
 
 module.exports = router;
 
-
-/*
-    const promise = Movie.findOne({
-        where: ({
-            _id: movie_id
-        })
-    });
-
-    promise.then((movie) => {
-        if (movie) {
-            movie.update({
-                title: body.title,
-                country: body.countryi,
-                imdb_score: body.imdb_score,
-                year: body.year,
-                category: body.category
-            }).then((data) => {
-                res.json(data);
-            })
-        }
-    })
-    */
