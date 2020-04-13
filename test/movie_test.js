@@ -8,7 +8,6 @@ let token, movieId;
 
 describe('Chechout api/movie ..', () => {
 
-
     before((done) => {
         chai.request(server)
             .post('/authenticate')
@@ -34,7 +33,7 @@ describe('Chechout api/movie ..', () => {
 
     describe('Checkout POST Movies', () => {
         it('It should post a movie', (done) => {
-            let  movie= {
+            let movie = {
                 title: 'TestUlanBu',
                 director_id: '5e93905a12305040ec75f366',
                 category: 'Filmm',
@@ -61,10 +60,10 @@ describe('Chechout api/movie ..', () => {
         });
     });
 
-    describe('Checkout Movie Detail...',() => {
-        it('It should get a movie detail',(done) => {
+    describe('Checkout Movie Detail...', () => {
+        it('It should get a movie detail', (done) => {
             chai.request(server)
-                .get('/api/movies/'+ movieId)
+                .get('/api/movies/' + movieId)
                 .set('x-access-token', token)
                 .end((error, res) => {
 
@@ -84,7 +83,7 @@ describe('Chechout api/movie ..', () => {
 
     describe('Checkout PUT Movies', () => {
         it('It should put a movie', (done) => {
-            let  movie= {
+            let movie = {
                 title: 'TestUlanBu-II',
                 director_id: '5e93905a12305040ec75f366',
                 category: 'Savaş',
@@ -113,7 +112,7 @@ describe('Chechout api/movie ..', () => {
     describe('Checkout Delete Movies', () => {
         it('It should post a movie', (done) => {
             chai.request(server)
-                .delete('/api/movies/'+ movieId)
+                .delete('/api/movies/' + movieId)
                 .set('x-access-token', token)
                 .end((err, res) => {
                     res.should.have.status(200);
