@@ -5,7 +5,7 @@ const server = require('../app');
 
 chai.use(chaiHttp);
 
-describe('Anasayfayı Kontrol Eder..', () => {
+describe('Chechout Homepage..', () => {
 
     it('(GET/) anasayfayı döndürür', (done) => {
         chai.request(server)
