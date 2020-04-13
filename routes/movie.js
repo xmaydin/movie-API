@@ -91,10 +91,9 @@ router.put('/:movie_id', (req, res, next) => {
     }).catch((error) => {
         res.json(error);
     });
-
 });
 
-/*********** Film Detaylarını Getirme **************/
+/*********** Film Detaylarını Silme **************/
 router.delete('/:movie_id', function (req, res, next) {
 
     const movie_id = req.params.movie_id;
@@ -103,7 +102,7 @@ router.delete('/:movie_id', function (req, res, next) {
         if (!movie) {
             next({message: 'The Movie Was Not Found', code: 911})
         } else {
-            res.json(movie);
+            res.json({status: 1});
         }
     }).catch((error) => {
         res.json(error);
